@@ -43,15 +43,19 @@ public class Deque<Item> implements Iterable<Item> {
         // TODO: Create a node and link it at the front; update head/tail pointers.
 
         if (item == null){
-            throw new IllegalArgumentException("e");
+            throw new IllegalArgumentException("null");
         }
         // TODO: Create a node and link it at the front; update head/tail pointers.
-        Node newthing = new Node();
-        newthing.item = item;
-        newthing.next = head.next;
-        newthing.prev = head;
-        head.next.prev = newthing;
-        head.next = newthing;
+        Node n = new Node();
+        n.item = item;
+        n.next = head;
+        n.prev = null;
+        if(head==null) {
+            tail=n;
+        } else {
+            head.prev=n;
+        }
+        head = n;
         size++;
     }
 
@@ -117,10 +121,10 @@ public class Deque<Item> implements Iterable<Item> {
 
     private class DequeIterator implements Iterator<Item>{
 
-        private Node current = head.next;
+        private Node current = head;
         @Override
         public boolean hasNext() {
-            return current!=tail;
+            return current!=null && !current.equals(tail);
         }
 
         @Override
