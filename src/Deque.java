@@ -21,10 +21,9 @@ public class Deque<Item> implements Iterable<Item> {
     /** Construct an empty deque. */
     public Deque() {
         // TODO: Initialize an empty linked list.
-        Node head = new Node();
-        head.item = null;
-        Node tail = new Node();
-        tail.item = null;
+        head=new Node();
+        tail=new Node();
+        size=0;
     }
 
     /** Return whether the deque is empty. */
@@ -42,13 +41,30 @@ public class Deque<Item> implements Iterable<Item> {
     /** Add an item to the front; reject null items with IllegalArgumentException. */
     public void addFirst(Item item) {
         // TODO: Create a node and link it at the front; update head/tail pointers.
-        Node n = new Node();
-        head.next = n;
-        n.next.prev = n;
 
-
+        if (item == null){
+            throw new IllegalArgumentException("e");
+        }
+        // TODO: Create a node and link it at the front; update head/tail pointers.
+        Node newthing = new Node();
+        newthing.item = item;
+        newthing.next = head.next;
+        newthing.prev = head;
+        head.next.prev = newthing;
+        head.next = newthing;
         size++;
     }
+
+
+
+
+
+
+
+
+
+
+
 
     /** Add an item to the back; reject null items with IllegalArgumentException. */
     public void addLast(Item item) {

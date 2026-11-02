@@ -18,13 +18,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     /** Return whether the randomized queue is empty. */
     public boolean isEmpty() {
         // TODO: Report whether this array-backed queue contains no items.
-        return false;
+        return size==0;
     }
 
     /** Return the number of items in the randomized queue. */
     public int size() {
         // TODO: Return this array-backed queue's item count.
-        return 0;
+        return size;
     }
 
     /** Add an item; reject null with IllegalArgumentException. */
