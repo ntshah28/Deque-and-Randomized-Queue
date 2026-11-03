@@ -13,6 +13,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     /** Construct an empty randomized queue. */
     public RandomizedQueue() {
         // TODO: Initialize an empty array-backed randomized queue. Resize by doubling when full and halving when quarter full.
+        items = (Item[])new Object[2];
     }
 
     /** Return whether the randomized queue is empty. */
@@ -30,6 +31,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     /** Add an item; reject null with IllegalArgumentException. */
     public void enqueue(Item item) {
         // TODO: Add the item to the backing array, resizing as needed.
+        if(item == null) {throw new IllegalArgumentException("NPE");}
+        else {
+            if(items.length<=(size++)) {
+                Item[] tmp = (Item[])new Object[items.length*2];
+                for(int i = 0; i < items.length; i++) {
+                    items[i] = tmp[i];
+                }
+                items = tmp;
+            }
+            items[size-1] = item;
+            size++;
+        }
     }
 
     /** Remove and return a uniformly random item; throw NoSuchElementException if empty. */

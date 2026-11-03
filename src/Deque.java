@@ -94,7 +94,7 @@ public class Deque<Item> implements Iterable<Item> {
     /** Remove and return the front item; throw NoSuchElementException if empty. */
     public Item removeFirst() {
         // TODO: Remove the front node and update head/tail pointers.
-        if(head.next.item == null) {throw new NoSuchElementException("NPE");}
+        if(isEmpty()) {throw new NoSuchElementException();}
         else {
             Item r = head.next.item;
             head.next = head.next.next;
@@ -108,7 +108,7 @@ public class Deque<Item> implements Iterable<Item> {
     /** Remove and return the back item; throw NoSuchElementException if empty. */
     public Item removeLast() {
         // TODO: Remove the back node and update head/tail pointers.
-        if(tail.prev.item==null) {
+        if(isEmpty()) {
             throw new NoSuchElementException();
         } else {
                 Item r = tail.prev.item;
