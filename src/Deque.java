@@ -23,6 +23,8 @@ public class Deque<Item> implements Iterable<Item> {
         // TODO: Initialize an empty linked list.
         head=new Node();
         tail=new Node();
+        head.next = tail;
+        tail.prev = head;
         size=0;
     }
 
@@ -46,17 +48,18 @@ public class Deque<Item> implements Iterable<Item> {
             throw new IllegalArgumentException("null");
         }
         // TODO: Create a node and link it at the front; update head/tail pointers.
-        Node n = new Node();
-        n.item = item;
-        n.next = head;
-        n.prev = null;
-        if(head==null) {
-            tail=n;
-        } else {
-            head.prev=n;
+        else {
+            Node n = new Node();
+
+            n.item = item;
+            n.next = head.next;
+            n.prev = head;
+            head.next = n;
+            n.next.prev = n;
+
+
+            size++;
         }
-        head = n;
-        size++;
     }
 
 
@@ -76,40 +79,45 @@ public class Deque<Item> implements Iterable<Item> {
         if(item==null) { throw new IllegalArgumentException("NPE");}
         else {
             Node n = new Node();
+
             n.item = item;
-            n.prev = tail;
-            n.next = null;
-            if(tail!=null) {
-                tail.next = n;
-            }
-            tail = n;
+            n.prev = tail.prev;
+            n.next = tail;
+            tail.prev = n;
+            n.prev.next=n;
+
+
+            size++;
         }
-        size++;
     }
 
     /** Remove and return the front item; throw NoSuchElementException if empty. */
     public Item removeFirst() {
         // TODO: Remove the front node and update head/tail pointers.
-        if(head.item == null) {throw new NoSuchElementException();}
+        if(head.next.item == null) {throw new NoSuchElementException("NPE");}
         else {
-            head = head.next;
-            head.prev.next = null;
+            Item r = head.next.item;
+            head.next = head.next.next;
+            head.next.prev = head;
             size--;
+            return r;
+
         }
-        return null;
     }
 
     /** Remove and return the back item; throw NoSuchElementException if empty. */
     public Item removeLast() {
         // TODO: Remove the back node and update head/tail pointers.
-        if(tail.item==null) {
+        if(tail.prev.item==null) {
             throw new NoSuchElementException();
         } else {
-            tail = tail.prev;
-            tail.next.prev = null;
-            size--;
+                Item r = tail.prev.item;
+                tail.prev = tail.prev.prev;
+                tail.prev.next = tail;
+                size--;
+                return r;
+
         }
-        return null;
     }
 
     /** Return an iterator from front to back; next() and remove() follow the specified exceptions. */
@@ -121,10 +129,10 @@ public class Deque<Item> implements Iterable<Item> {
 
     private class DequeIterator implements Iterator<Item>{
 
-        private Node current = head;
+        private Node current = head.next;
         @Override
         public boolean hasNext() {
-            return current!=null && !current.equals(tail);
+            return current!=tail;
         }
 
         @Override
