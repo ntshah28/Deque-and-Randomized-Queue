@@ -41,13 +41,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 items = tmp;
             }
             items[size-1] = item;
-            size++;
         }
     }
 
     /** Remove and return a uniformly random item; throw NoSuchElementException if empty. */
     public Item dequeue() {
         // TODO: Pick a random index between 0 and size-1; swap the chosen item with the last item, then remove and resize as needed.
+        size--;
         return null;
     }
 
@@ -63,19 +63,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         // TODO: Return an independent iterator that traverses the array items in random order.
 
 
-        return null;
+        return new RandomizedQueueIterator();
     }
     private class RandomizedQueueIterator implements Iterator<Item>{
         private Item[] shuffledItems;
         private int current;
+        public RandomizedQueueIterator(){
+            shuffledItems = (Item[])new Object[size];
+            for(int i = 0; i<size; i++) {
+                shuffledItems[i]=items[i];
+            }
+            for(int i = size-1; i>=0;i--) {
+                int x = (int)(Math.random()*(i+1));
+                Item tmp = shuffledItems[i];
+                shuffledItems[i] = shuffledItems[x];
+                shuffledItems[x] = tmp;
+            }
+            current=0;
+        }
         @Override
         public boolean hasNext() {
-            return false;
+            return current< size-1;
         }
 
         @Override
         public Item next() {
-            return null;
+            if(!hasNext()) {
+                throw new NoSuchElementException("no more items");
+            }
+            return shuffledItems[current+1];
         }
     }
 
